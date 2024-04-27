@@ -1,33 +1,30 @@
 from fastapi import FastAPI,Depends
 from models import tables,schemas
-from models.DB import engine, SessionLocal
+from models.DB import engine
 from sqlalchemy.orm import Session
 
 from services.UserService import UserService
 from services.AuthService import AuthService
+
+# including controllers
+from controllers.UserController import user_controller_router
 
 
 tables.Base.metadata.create_all(bind = engine)
 
 app = FastAPI()
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/signup",response_model = None)
-def signup():
-    pass
+app.include_router(user_controller_router)
 
-@app.get("/getusers", response_model = schemas.User)
-def get_users(db: Session = Depends(get_db)):
-    user_service = UserService(db)
-    return user_service.get_users()
+# @app.post("/signup",response_model = None)
+# def signup():
+#     pass
+
+# @app.get("/getusers", response_model = schemas.User)
+# def get_users(db: Session = Depends(get_db)):
+#     user_service = UserService(db)
+#     return user_service.get_users()
