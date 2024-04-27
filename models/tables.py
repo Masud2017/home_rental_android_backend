@@ -42,7 +42,7 @@ class UserWallet(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User", back_populates="user_wallet")
 
-class UserAdress(Base):
+class UserAddress(Base):
     __tablename__ = "user_addresses"
 
     id = Column(Integer, primary_key=True)
