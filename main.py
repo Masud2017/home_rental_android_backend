@@ -12,6 +12,7 @@ from controllers.UserController import user_controller_router
 
 tables.Base.metadata.create_all(bind = engine)
 
+
 app = FastAPI()
 
 @app.get("/")
