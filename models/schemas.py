@@ -22,6 +22,7 @@ class UserWallet(BaseModel):
         from_attributes = True
 
 class UserBase(BaseModel):
+    name:str
     email:str
     class Config:
         # orm_mode = True

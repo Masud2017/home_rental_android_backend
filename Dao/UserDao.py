@@ -10,3 +10,10 @@ class UserDao:
 
     def get_users(self) -> list[schemas.User]:
         return self.db.query(tables.User).all()
+    
+    def add_user(self,user : schemas.UserCreate) -> schemas.UserBase:
+        user_obj = tables.User()
+        user_obj.email = user.email
+        user_obj.password = user.password
+        self.db.add()
+        pass
