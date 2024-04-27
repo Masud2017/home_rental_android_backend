@@ -8,5 +8,5 @@ class UserDao:
     def __init__(self,db:Session):
         self.db = db
 
-    def get_users(self) -> schemas.User:
+    def get_users(self) -> list[schemas.User]:
         return self.db.query(tables.User).all()

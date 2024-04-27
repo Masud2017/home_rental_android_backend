@@ -1,7 +1,7 @@
 # Schemas are basically sets of pydantic models that is being used to validate and parse data from http request object
 
 from typing import Union,Tuple,List
-from pydantic import BaseModel,ConfigDict
+from pydantic import BaseModel
 
 
 class UserHistory(BaseModel):
@@ -28,7 +28,7 @@ class UserBase(BaseModel):
         from_attributes = True
 
 
-class UserCrete(UserBase):
+class UserCreate(UserBase):
     password:str
     class Config:
         # orm_mode = True
@@ -44,13 +44,10 @@ class UserCrete(UserBase):
 class User(UserBase):
     id : int
     is_active: bool
-    # user_histories : list[UserHistory] = []
-    # user_wallet: UserWallet
+    user_histories : list[UserHistory] = []
+    user_wallet: UserWallet
 
-    model_config = ConfigDict(extra='allow')
-
-
-    # class Config:
-    #     orm_mode = True
-    #     # from_attributes = True
+    class Config:
+        # orm_mode = True
+        from_attributes = True
 

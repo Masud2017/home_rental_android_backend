@@ -12,7 +12,7 @@ user_controller_router = APIRouter()
 class UserController:
     @user_controller_router.get("/getusers")
     @staticmethod
-    def get_users(db:Session = Depends(get_db)) -> schemas.User:
+    def get_users(db:Session = Depends(get_db)) -> list[schemas.User]:
         
         user_dao = UserDao(db)
         return user_dao.get_users()
