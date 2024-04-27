@@ -45,8 +45,8 @@ class UserCreate(UserBase):
 class User(UserBase):
     id : int
     is_active: bool
-    user_histories : list[UserHistory] = []
-    user_wallet: UserWallet
+    # user_histories : list[UserHistory] = []
+    # user_wallet: UserWallet = None
 
     class Config:
         # orm_mode = True

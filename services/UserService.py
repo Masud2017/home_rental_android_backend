@@ -9,3 +9,6 @@ class UserService:
 
     def get_users(self) -> schemas.User:
         return self.user_dao.get_users()
+    
+    def get_users(self,user : schemas.UserCreate) -> schemas.User:
+        return self.user_dao.add_user(user)

@@ -13,7 +13,14 @@ class UserController:
     @user_controller_router.get("/getusers")
     @staticmethod
     def get_users(db:Session = Depends(get_db)) -> list[schemas.User]:
-        
         user_dao = UserDao(db)
+
         return user_dao.get_users()
+    
+    @user_controller_router.post("/adduser")
+    @staticmethod
+    def add_user(user:schemas.UserCreate,db:Session = Depends(get_db))-> schemas.UserBase:
+        user_dao = UserDao(db)
+
+        return user_dao.add_user(user)
     

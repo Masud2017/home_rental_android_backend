@@ -15,5 +15,10 @@ class UserDao:
         user_obj = tables.User()
         user_obj.email = user.email
         user_obj.password = user.password
-        self.db.add()
-        pass
+        user_obj.name = user.name
+        user_obj.user_wallet = None
+        user_obj.user_histories = list()
+        self.db.add(user_obj)
+        self.db.commit()
+        self.db.refresh(user_obj)
+        return user_obj
