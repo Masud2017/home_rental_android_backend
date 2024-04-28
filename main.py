@@ -5,15 +5,17 @@ from sqlalchemy.orm import Session
 
 from services.UserService import UserService
 from services.AuthService import AuthService
+from models.seeder import add_role_seed_event
 
 # including controllers
 from controllers.UserController import user_controller_router
 
-
+add_role_seed_event()
 tables.Base.metadata.create_all(bind = engine)
 
-
 app = FastAPI()
+
+
 
 @app.get("/")
 async def root():

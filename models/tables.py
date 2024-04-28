@@ -1,5 +1,5 @@
 from .DB import Base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Table
 from sqlalchemy.orm import relationship
 
 class User(Base):
@@ -13,6 +13,8 @@ class User(Base):
 
     user_histories = relationship("UserHistory", back_populates="owner")
     user_wallet = relationship("UserWallet", back_populates="owner",uselist=False) # one to one relation with user and user wallet
+    roles = relationship("Role", secondary="user_role", back_populates='users')
+
 
 
 class UserHistory(Base):
@@ -50,7 +52,7 @@ class UserAddress(Base):
     zip_code = Column(Integer,unique=False)
 
 class HomeInventory(Base):
-    __tablename__ = "home_inventory"
+    __tablename__ = "home_inventories"
 
     id = Column(Integer, primary_key = True)
     user_name = Column(String, nullable = True)
@@ -65,17 +67,25 @@ class Image(Base):
     image_url = Column(String, nullable = False)
 
 class RechargeHistory(Base):
-    __tablename__ = "recharge_history"
+    __tablename__ = "recharge_histories"
 
     id = Column(Integer, primary_key=True)
     
 
 class Role(Base):
-    __tablename__ = "role"
+    __tablename__ = "roles"
 
     id = Column(Integer, primary_key= True)
+    users = relationship("User", secondary="user_role", back_populates='roles')
+    role = Column(String, nullable=True,unique=True)
+
+
+user_role = Table('user_role', Base.metadata,
+    Column('user_id', ForeignKey('users.id'), primary_key=True),
+    Column('role_id', ForeignKey('roles.id'), primary_key=True)
+)
 
 class TransactionHistory(Base):
-    __tablename__ = "transaction_history"
+    __tablename__ = "transaction_histories"
 
     id = Column(Integer, primary_key= True)

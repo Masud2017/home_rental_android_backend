@@ -4,6 +4,8 @@ from models import schemas
 from models import tables
 from sqlalchemy.orm import Session
 
+from utils.util import get_role_object_by_role_name
+
 class UserDao:
     def __init__(self,db:Session):
         self.db = db
@@ -19,6 +21,32 @@ class UserDao:
         user_obj.user_wallet = None
         user_obj.user_histories = list()
         self.db.add(user_obj)
+        # self.db.commit()
+        # self.db.refresh(user_obj)
+
+        role_obj = get_role_object_by_role_name("user",self.db)
+
+        user_obj.roles.append(role_obj)
         self.db.commit()
         self.db.refresh(user_obj)
+
+        
+        return user_obj
+    
+    def add_seller_user(self, user: schemas.UserCreate) -> schemas.UserBase:
+        user_obj = tables.User()
+        user_obj.email = user.email
+        user_obj.password = user.password
+        user_obj.name = user.name
+        user_obj.user_wallet = None
+        user_obj.user_histories = list()
+        self.db.add(user_obj)
+
+        role_obj = get_role_object_by_role_name("seller",self.db)
+
+        user_obj.roles.append(role_obj)
+        self.db.commit()
+        self.db.refresh(user_obj)
+
+        
         return user_obj
