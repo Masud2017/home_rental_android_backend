@@ -1,5 +1,5 @@
 from .DB import Base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 class User(Base):
@@ -48,3 +48,34 @@ class UserAddress(Base):
 
     id = Column(Integer, primary_key=True)
     zip_code = Column(Integer,unique=False)
+
+class HomeInventory(Base):
+    __tablename__ = "home_inventory"
+
+    id = Column(Integer, primary_key = True)
+    user_name = Column(String, nullable = True)
+    second_user_name = Column(String , nullable= True)
+    rent_price = Column(Integer, nullable=False)
+    payment_date = Column(DateTime,nullable=False)
+
+class Image(Base):
+    __tablename__ = "images"
+
+    id = Column(Integer, primary_key=True)
+    image_url = Column(String, nullable = False)
+
+class RechargeHistory(Base):
+    __tablename__ = "recharge_history"
+
+    id = Column(Integer, primary_key=True)
+    
+
+class Role(Base):
+    __tablename__ = "role"
+
+    id = Column(Integer, primary_key= True)
+
+class TransactionHistory(Base):
+    __tablename__ = "transaction_history"
+
+    id = Column(Integer, primary_key= True)
