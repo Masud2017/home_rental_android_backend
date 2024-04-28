@@ -48,13 +48,28 @@ class UserDao:
         self.db.commit()
         self.db.refresh(user_obj)
 
+    def add_root_user(self, user :schemas.UserCreate) -> schemas.UserBase:
+        user_obj = tables.User()
+        user_obj.name = user.name
+        user_obj.email = user.email
         
+        user_obj.password = user.password
+        user_obj.user_wallet = None
+        user_obj.user_histories = list()
+        
+        self.db.add(user_obj)
+
+        role_obj = get_role_object_by_role_name("root",self.db)
+        user_obj.roles.append(role_obj)
+        self.db.commit()
+        self.db.refresh(user_obj)
+
         return user_obj
     
     def get_user_by_email(self,email :str):
         result = self.db.query(tables.User).filter(tables.User.email == email).all()
 
-        if result == None:
+        if len(result) == 0:
             return None
         else:
             return result[0]

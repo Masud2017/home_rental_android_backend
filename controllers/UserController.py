@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from models import schemas
 from models import tables
 from Dao.UserDao import UserDao
+from services.UserService import UserService
 
 from . import pwd_context
 from models.DB import get_db
@@ -22,8 +23,23 @@ class UserController:
     @user_controller_router.post("/adduser")
     @staticmethod
     def add_user(user:schemas.UserCreate,db:Session = Depends(get_db))-> schemas.UserBase:
-        user.password = pwd_context.encrypt(user.password)
-        user_dao = UserDao(db)
+        user_service = UserService(db)
 
-        return user_dao.add_user(user)
+        return user_service.add_user(user)
     
+    @user_controller_router.post("/addselleruser")
+    @staticmethod
+    def add_seller_user(user:schemas.UserCreate, db:Session = Depends(get_db)) -> schemas.UserBase:
+        user_service = UserService(db)
+
+        return user_service.add_seller_user(user)
+    
+    @user_controller_router.post("/addrootuser")
+    @staticmethod
+    def add_root_user(user:schemas.UserCreate, db:Session = Depends(get_db)) -> schemas.UserBase:
+        
+        # user_dao = UserDao(db)
+        user_service = UserService(db)
+
+
+        return user_service.add_root_user(user)

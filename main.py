@@ -1,10 +1,7 @@
-from fastapi import FastAPI,Depends
-from models import tables,schemas
+from fastapi import FastAPI
+from models import tables
 from models.DB import engine
-from sqlalchemy.orm import Session
 
-from services.UserService import UserService
-from services.AuthService import AuthService
 from models.seeder import add_role_seed_event
 
 # including controllers
@@ -18,19 +15,16 @@ app = FastAPI()
 
 
 
-@app.get("/")
+@app.get("/deny_permission")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Sorry you don't have permission to access this resource."}
+
+from fastapi.responses import RedirectResponse
+
 
 app.include_router(user_controller_router)
 app.include_router(auth_controller_router)
 
-
-# @app.post("/signup",response_model = None)
-# def signup():
-#     pass
-
-# @app.get("/getusers", response_model = schemas.User)
-# def get_users(db: Session = Depends(get_db)):
-#     user_service = UserService(db)
-#     return user_service.get_users()
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run("main:app", host="0.0.0.0", port=4444, reload=False, log_level="debug")
