@@ -12,7 +12,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
 
     user_histories = relationship("UserHistory", back_populates="owner")
-    user_wallet = relationship("UserWallet", back_populates="owner",uselist=False) # one to one relation with user and user wallet
+    user_wallet = relationship("UserWallet", back_populates="user",uselist=False) # one to one relation with user and user wallet
     roles = relationship("Role", secondary="user_role", back_populates='users')
 
 
@@ -42,8 +42,8 @@ class UserWallet(Base):
     id = Column(Integer, primary_key=True)
     balance = Column(Integer,unique=False,index=True)
 
-    owner_id = Column(Integer, ForeignKey("users.id"))
-    owner = relationship("User", back_populates="user_wallet")
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="user_wallet")
 
 class UserAddress(Base):
     __tablename__ = "user_addresses"

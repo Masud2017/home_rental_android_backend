@@ -27,8 +27,24 @@ class UserDao:
         role_obj = util.get_role_object_by_role_name("user",self.db)
 
         user_obj.roles.append(role_obj)
+
+        wallet = tables.UserWallet()
+        wallet.balance = 0
+        user_obj.user_wallet = wallet
+        self.db.add(wallet)
+
+
         self.db.commit()
+        self.db.refresh(wallet)
         self.db.refresh(user_obj)
+
+
+        # wallet = tables.UserWallet()
+        # wallet.balance = 0
+        # wallet.user = user_obj
+        # self.db.add(wallet)
+        # self.db.commit()
+        # self.db.refresh(wallet)
 
         
         return user_obj
@@ -45,8 +61,16 @@ class UserDao:
         role_obj = util.get_role_object_by_role_name("seller",self.db)
 
         user_obj.roles.append(role_obj)
+
         self.db.commit()
         self.db.refresh(user_obj)
+
+        wallet = tables.UserWallet()
+        wallet.balance = 0
+        wallet.user = user_obj
+        self.db.add(wallet)
+        self.db.commit()
+        self.db.refresh(wallet)
 
     def add_root_user(self, user :schemas.UserCreate) -> schemas.UserBase:
         user_obj = tables.User()
