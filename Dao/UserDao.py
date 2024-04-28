@@ -68,6 +68,8 @@ class UserDao:
         self.db.commit()
         self.db.refresh(user_obj)
 
+        # In the case of seller user I tried to persist the data in the second way just to prove that it works.
+
         wallet = tables.UserWallet()
         wallet.balance = 0
         wallet.user = user_obj
