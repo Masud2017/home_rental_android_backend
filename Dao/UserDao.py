@@ -28,6 +28,7 @@ class UserDao:
 
         user_obj.roles.append(role_obj)
 
+        # The wallet can be persisted in this way too.
         wallet = tables.UserWallet()
         wallet.balance = 0
         user_obj.user_wallet = wallet
@@ -38,6 +39,8 @@ class UserDao:
         self.db.refresh(wallet)
         self.db.refresh(user_obj)
 
+
+        #For note: alternative way to persisting wallet with user object
 
         # wallet = tables.UserWallet()
         # wallet.balance = 0
