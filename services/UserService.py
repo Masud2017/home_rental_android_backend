@@ -3,6 +3,8 @@ from models import schemas
 from Dao.UserDao import UserDao
 from controllers import pwd_context
 
+from utils.util import get_current_active_user
+
 class UserService:
     def __init__(self,db:Session):
         self.db = db
@@ -22,3 +24,5 @@ class UserService:
     def add_root_user(self, user: schemas.UserCreate) -> schemas.UserBase:
         user.password = pwd_context.encrypt(user.password)
         return self.user_dao.add_root_user(user)
+
+    

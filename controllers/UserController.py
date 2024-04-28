@@ -7,6 +7,8 @@ from services.UserService import UserService
 
 from . import pwd_context
 from models.DB import get_db
+from utils.util import get_current_active_user
+from typing import Annotated
 
 user_controller_router = APIRouter()
 
@@ -15,8 +17,11 @@ user_controller_router = APIRouter()
 class UserController:
     @user_controller_router.get("/getusers")
     @staticmethod
-    def get_users(db:Session = Depends(get_db)) -> list[schemas.User]:
+    def get_users(current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> list[schemas.User]:
         user_dao = UserDao(db)
+
+        print("Name of the current user is : ",current_user.name)
+
 
         return user_dao.get_users()
     
