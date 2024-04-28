@@ -9,6 +9,7 @@ from models.seeder import add_role_seed_event
 
 # including controllers
 from controllers.UserController import user_controller_router
+from controllers.AuthController import auth_controller_router
 
 add_role_seed_event()
 tables.Base.metadata.create_all(bind = engine)
@@ -22,6 +23,8 @@ async def root():
     return {"message": "Hello World"}
 
 app.include_router(user_controller_router)
+app.include_router(auth_controller_router)
+
 
 # @app.post("/signup",response_model = None)
 # def signup():

@@ -50,3 +50,11 @@ class UserDao:
 
         
         return user_obj
+    
+    def get_user_by_email(self,email :str):
+        result = self.db.query(tables.User).filter(tables.User.email == email).all()
+
+        if result == None:
+            return None
+        else:
+            return result[0]

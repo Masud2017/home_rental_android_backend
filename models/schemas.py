@@ -52,7 +52,9 @@ class User(UserBase):
         # orm_mode = True
         from_attributes = True
 
-class UserWithAuthToken(UserBase):
+class UserWithAuthToken(BaseModel):
+    email:str
+    expires:int
     auth_token:str
 
     class Config:
