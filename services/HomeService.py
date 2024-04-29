@@ -19,3 +19,6 @@ class HomeService:
     
     def get_user_created_homes(self,current_user:tables.User) -> list[schemas.HomeModelResponse]:
         return self.home_dao.get_user_created_homes(current_user)
+    
+    def delete_home(self,home_id,current_user) -> schemas.HomeModelResponse:
+        return self.home_dao.delete_home(home_id,current_user)

@@ -3,7 +3,7 @@
 from models import schemas
 from models import tables
 from sqlalchemy.orm import Session
-
+import traceback
 from utils import util
 
 class UserDao:
@@ -105,3 +105,5 @@ class UserDao:
             return None
         else:
             return result[0]
+        
+    
