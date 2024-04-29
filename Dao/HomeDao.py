@@ -47,5 +47,6 @@ class HomeDao:
                     return res[0]
                 except Exception:
                     print(traceback.format_exc())
+                    return None
             else:
                 return None

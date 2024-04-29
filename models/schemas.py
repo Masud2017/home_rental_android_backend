@@ -15,8 +15,6 @@ class UserHistory(BaseModel):
 class UserWallet(BaseModel):
     id:int
     balance:int
-    owner_id:int
-
     class Config:
         # orm_mode = True
         from_attributes = True
@@ -80,5 +78,10 @@ class HomeModel(BaseModel):
 class HomeModelResponse(HomeModel):
     id :int
 
+    class Config:
+        from_attributes = True
+
+
+class RechargeWallet(BaseModel):
     class Config:
         from_attributes = True
