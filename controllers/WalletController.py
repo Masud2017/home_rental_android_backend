@@ -27,3 +27,18 @@ class AuthController:
 
         return wallet_obj
     
+    @staticmethod
+    @wallet_controller_router.patch("/updatewallet")
+    def update_wallet(wallet:schemas.UserWallet,current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> schemas.UserWallet:
+        exception = HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="This user does not have any wallet.",
+        )
+
+        wallet_service = WalletService(db)
+        wallet_obj = wallet_service.update_wallet(wallet,current_user)
+        if wallet_obj == None:
+            raise exception
+
+        return wallet_obj    
+    

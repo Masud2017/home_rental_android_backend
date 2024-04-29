@@ -17,3 +17,19 @@ class WalletDao:
             return None
         else:
             return res[0]
+        
+
+    def update_wallet(self,wallet:schemas.UserWallet, current_user : tables.UserWallet) -> schemas.UserWallet:
+        res = self.db.query(tables.UserWallet).filter(tables.UserWallet.user_id == current_user.id).all()
+
+        if len(res) == 0:
+            return None
+        else:
+            try:
+                res[0].balance = wallet.balance
+
+                self.db.commit()
+                return res[0]
+            except Exception:
+                print(traceback.format_exc())
+                return None

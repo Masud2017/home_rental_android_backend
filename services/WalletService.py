@@ -25,3 +25,5 @@ class WalletService:
         return self.wallet_dao.get_wallet_info(current_user)
     
     
+    def update_wallet(self, wallet:schemas.UserWallet, current_user :tables.User)-> schemas.UserWallet:
+        return self.wallet_dao.update_wallet(wallet,current_user)
