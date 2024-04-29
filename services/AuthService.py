@@ -34,7 +34,7 @@ class AuthService:
                     expire = datetime.now(timezone.utc) + timedelta(minutes=15)
                 to_encode.update({"exp": expire})
                 encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-                return schemas.UserWithAuthToken(email = to_encode["sub"],expires=to_encode["exp"], auth_token=encoded_jwt)
+                return schemas.UserWithAuthToken(email = to_encode["sub"],expires=to_encode["exp"], access_token=encoded_jwt)
                 
 
             else:

@@ -10,7 +10,7 @@ from Dao import UserDao
 from fastapi.security import OAuth2PasswordBearer
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="authenticate_swagger")
 
 from dotenv import load_dotenv
 load_dotenv()

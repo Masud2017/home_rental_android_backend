@@ -45,4 +45,17 @@ class AuthController:
     @staticmethod
     @wallet_controller_router.post("/addwalletrechargehistory")
     def add_wallet_recharge_history(wallet_recharge_history:schemas.WalletRechargeHistory,current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> schemas.WalletRechargeHistory:
-        pass
+        exception = HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Something went wrong while trying to add user wallet recharge history. Please contact with your api provider.",
+        )
+
+
+        wallet_service = WalletService(db)
+
+        wallet_recharge_history_obj = wallet_service.add_wallet_recharge_history(wallet_recharge_history,current_user)
+
+        if (wallet_recharge_history_obj == None):
+            raise exception
+
+        return wallet_recharge_history_obj

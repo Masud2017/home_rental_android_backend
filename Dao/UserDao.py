@@ -107,3 +107,15 @@ class UserDao:
             return result[0]
         
     
+    def add_wallet_recharge_history(self,wallet_recharge_history:schemas.WalletRechargeHistory,current_user:tables.User) -> schemas.WalletRechargeHistory:
+        recharge_history = tables.RechargeHistory()
+        recharge_history.msg = wallet_recharge_history.msg
+        recharge_history.payment_amount = wallet_recharge_history.payment_amount
+        recharge_history.payment_platform = wallet_recharge_history.payment_platform
+        recharge_history.user = current_user
+
+        self.db.add(recharge_history)
+        self.db.commit()
+        self.db.refresh(recharge_history)
+
+        return recharge_history

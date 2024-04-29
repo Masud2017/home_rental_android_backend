@@ -20,7 +20,7 @@ class UserWallet(BaseModel):
         from_attributes = True
 
 class UserBase(BaseModel):
-    name:str
+    name:str = ""
     email:str
     class Config:
         # orm_mode = True
@@ -53,7 +53,8 @@ class User(UserBase):
 class UserWithAuthToken(BaseModel):
     email:str
     expires:int
-    auth_token:str
+    access_token:str
+    token_type:str="bearer"
 
     class Config:
         from_attributes = True
