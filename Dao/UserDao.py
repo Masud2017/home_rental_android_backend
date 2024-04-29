@@ -34,6 +34,8 @@ class UserDao:
         user_obj.user_wallet = wallet
         self.db.add(wallet)
 
+        home_inventory = tables.HomeInventory()
+
 
         self.db.commit()
         self.db.refresh(wallet)
@@ -48,6 +50,7 @@ class UserDao:
         # self.db.add(wallet)
         # self.db.commit()
         # self.db.refresh(wallet)
+
 
         
         return user_obj

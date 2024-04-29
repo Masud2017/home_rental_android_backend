@@ -67,5 +67,18 @@ class TokenData(BaseModel):
         from_attributes = True
 
 class HomeModel(BaseModel):
+    name : str
+    desc : str
+    price:int
+    address:str
+    flat_count:int
+    is_soled:bool
+
+    class Config:
+        from_attributes = True
+
+class HomeModelResponse(HomeModel):
+    id :int
+
     class Config:
         from_attributes = True

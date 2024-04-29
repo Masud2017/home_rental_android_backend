@@ -7,6 +7,7 @@ from models.seeder import add_role_seed_event
 # including controllers
 from controllers.UserController import user_controller_router
 from controllers.AuthController import auth_controller_router
+from controllers.HomeController import home_controller_router
 
 add_role_seed_event()
 tables.Base.metadata.create_all(bind = engine)
@@ -24,6 +25,7 @@ from fastapi.responses import RedirectResponse
 
 app.include_router(user_controller_router)
 app.include_router(auth_controller_router)
+app.include_router(home_controller_router)
 
 # if __name__ == "__main__":
 #     import uvicorn

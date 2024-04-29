@@ -17,6 +17,9 @@ class User(Base):
     user_wallet = relationship("UserWallet", back_populates="user",uselist=False) # one to one relation with user and user wallet
     roles = relationship("Role", secondary="user_role", back_populates='users')
     homes = relationship("Home", back_populates='user')
+    home_inventories = relationship("HomeInventory", back_populates='user')
+    user_address = relationship("UserAddress", back_populates="user", uselist=False)
+
 
 
 
@@ -35,10 +38,10 @@ class Home(Base):
 
     id = Column(Integer, primary_key=True)
 
-    name = Column(String, unique=True, index=True)
-    desc = Column(String, unique=True, index=True)
-    price = Column(Integer, unique=True, index=True)
-    address = Column(String,nullable=True)
+    name = Column(String, index=True)
+    desc = Column(String, index=True)
+    price = Column(Integer, index=True)
+    address = Column(String,nullable=False)
     flat_count = Column(Integer, nullable= False)
     is_soled = Column(Boolean, nullable=False)
     expiry_date = Column(DateTime,nullable=True)
@@ -59,6 +62,14 @@ class UserAddress(Base):
 
     id = Column(Integer, primary_key=True)
     zip_code = Column(Integer,unique=False)
+    street = Column(String, nullable= False)
+    state = Column(String , nullable=False)
+    country = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="user_address")
+
 
 class HomeInventory(Base):
     __tablename__ = "home_inventories"
@@ -68,6 +79,14 @@ class HomeInventory(Base):
     second_user_name = Column(String , nullable= True)
     rent_price = Column(Integer, nullable=False)
     payment_date = Column(DateTime,nullable=False)
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="home_inventories")
+    home = relationship("Home")
+
+    home_id = Column(Integer, ForeignKey("homes.id"))
+
+
 
 class Image(Base):
     __tablename__ = "images"
