@@ -42,3 +42,7 @@ class AuthController:
 
         return wallet_obj    
     
+    @staticmethod
+    @wallet_controller_router.post("/addwalletrechargehistory")
+    def add_wallet_recharge_history(wallet_recharge_history:schemas.WalletRechargeHistory,current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> schemas.WalletRechargeHistory:
+        pass

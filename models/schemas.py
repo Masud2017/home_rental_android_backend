@@ -85,3 +85,11 @@ class HomeModelResponse(HomeModel):
 class RechargeWallet(BaseModel):
     class Config:
         from_attributes = True
+
+
+class WalletRechargeHistory(BaseModel):
+    msg:str
+    payment_amount:int
+    payment_platform:str # Bkash, Nagad, Rocket
+    class Config:
+        from_attributes = True

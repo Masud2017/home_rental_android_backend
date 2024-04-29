@@ -20,6 +20,7 @@ class User(Base):
     home_inventories = relationship("HomeInventory", back_populates='user')
     user_address = relationship("UserAddress", back_populates="user", uselist=False)
 
+    recharge_histories = relationship("RechargeHistory", back_populates="user")
 
 
 
@@ -98,6 +99,12 @@ class RechargeHistory(Base):
     __tablename__ = "recharge_histories"
 
     id = Column(Integer, primary_key=True)
+    msg = Column(String)
+    payment_amount = Column(Integer)
+    payment_platform = Column(String)
+    recharge_date = Column(DateTime,default=datetime.now())
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="recharge_histories")
     
 
 class Role(Base):
