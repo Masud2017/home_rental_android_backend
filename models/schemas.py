@@ -65,3 +65,7 @@ class TokenData(BaseModel):
 
     class Config:
         from_attributes = True
+
+class HomeModel(BaseModel):
+    class Config:
+        from_attributes = True

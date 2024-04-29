@@ -1,6 +1,8 @@
 from .DB import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Table
 from sqlalchemy.orm import relationship
+from datetime import datetime
+
 
 class User(Base):
     __tablename__ = "users"
@@ -14,6 +16,7 @@ class User(Base):
     user_histories = relationship("UserHistory", back_populates="owner")
     user_wallet = relationship("UserWallet", back_populates="user",uselist=False) # one to one relation with user and user wallet
     roles = relationship("Role", secondary="user_role", back_populates='users')
+    homes = relationship("Home", back_populates='user')
 
 
 
@@ -35,7 +38,13 @@ class Home(Base):
     name = Column(String, unique=True, index=True)
     desc = Column(String, unique=True, index=True)
     price = Column(Integer, unique=True, index=True)
-    count = Column(Integer, unique=True, index=True)
+    address = Column(String,nullable=True)
+    flat_count = Column(Integer, nullable= False)
+    is_soled = Column(Boolean, nullable=False)
+    expiry_date = Column(DateTime,nullable=True)
+    created_at =Column(DateTime, default= datetime.now())
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="homes")
 
 class UserWallet(Base):
     __tablename__ = "user_wallets"
