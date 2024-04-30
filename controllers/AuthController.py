@@ -22,7 +22,7 @@ class AuthController:
 
     @staticmethod
     @auth_controller_router.post("/authenticate_swagger")
-    def authenticate(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],db:Session = Depends(get_db)) -> schemas.UserWithAuthToken:
+    def authenticate_swagger(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],db:Session = Depends(get_db)) -> schemas.UserWithAuthToken:
         user = schemas.UserCreate(name = "",email = form_data.username,password=form_data.password)
         auth_service = AuthService(db)
         return auth_service.authenticate(user)
