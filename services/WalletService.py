@@ -27,3 +27,6 @@ class WalletService:
     
     def update_wallet(self, wallet:schemas.UserWallet, current_user :tables.User)-> schemas.UserWallet:
         return self.wallet_dao.update_wallet(wallet,current_user)
+    
+    def add_wallet_recharge_history(self,wallet_recharge_history:schemas.WalletRechargeHistory,current_user:tables.User) -> schemas.WalletRechargeHistory:
+        return self.wallet_dao.add_wallet_recharge_history(wallet_recharge_history,current_user)
