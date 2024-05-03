@@ -106,3 +106,26 @@ class UserDao:
         else:
             return result[0]
         
+    def add_address(self,current_user:tables.User, address :tables.UserAddress) -> bool:
+        try:
+            address_obj = tables.UserAddress()
+
+            address_obj.zip_code = address.zip_code
+            address_obj.country = address.country
+            address_obj.street = address.street
+            address_obj.state = address.state
+            address_obj.phone = address.phone
+
+            address_obj.user = current_user
+
+
+            self.db.add(address_obj)
+            self.db.commit()
+            self.db.refresh(address_obj)
+
+            return True
+        except Exception as ex:
+            import traceback
+            print(traceback.format_exc())
+
+            return False

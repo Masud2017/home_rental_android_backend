@@ -46,3 +46,25 @@ class WalletDao:
         self.db.refresh(recharge_history)
 
         return recharge_history
+    
+    def add_transaction_history(self,transaction_history:schemas.TransactionHistory, current_user : tables.User)-> bool:
+        transaction_history_obj = tables.TransactionHistory()
+
+        try:
+            transaction_history_obj.msg = transaction_history.msg
+            transaction_history_obj.user_id_second = transaction_history.user_id_second
+            transaction_history_obj.user = current_user
+
+            self.db.add(transaction_history_obj)
+            self.db.commit()
+            self.db.refresh(transaction_history_obj)
+
+            return True
+        except Exception as ex:
+            import traceback 
+            print(traceback.format_exc())
+
+            return False
+        
+
+    

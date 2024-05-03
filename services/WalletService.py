@@ -30,3 +30,7 @@ class WalletService:
     
     def add_wallet_recharge_history(self,wallet_recharge_history:schemas.WalletRechargeHistory,current_user:tables.User) -> schemas.WalletRechargeHistory:
         return self.wallet_dao.add_wallet_recharge_history(wallet_recharge_history,current_user)
+    
+
+    def add_transaction_history(self,transaction_history : schemas.TransactionHistory, current_user : tables.User)->bool:
+        return self.wallet_dao.add_transaction_history(transaction_history,current_user)

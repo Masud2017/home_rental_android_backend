@@ -1,11 +1,14 @@
 from models.DB import get_db
 from models import tables
 from sqlalchemy.orm import Session
-from typing import Annotated
-from fastapi import Depends, HTTPException, status
+from typing import Annotated, BinaryIO
+from fastapi import Depends, HTTPException, status, UploadFile
 from jose import JWTError, jwt
 from models import schemas
 from Dao import UserDao
+import base64
+from datetime import timedelta
+import time
 
 from fastapi.security import OAuth2PasswordBearer
 
@@ -55,3 +58,29 @@ current_user: Annotated[tables.User, Depends(get_current_user)],
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+
+def save_file_to_disk(image : UploadFile,email:str) -> str:
+    current_time_stamp_in_mil = int(round(time.time() * 1000))
+    convertible_str = str(current_time_stamp_in_mil)+"."+email + image.filename
+    file_name = base64.b64encode(convertible_str.encode("ascii"))
+    file_name = file_name.decode("ascii") + "." + image.filename.split(".")[1]
+    
+    import os
+    if (not os.path.isdir("storage")):
+        os.makedirs("storage")
+
+    path = f"storage/{file_name}"
+    
+    try:
+        with open(path,"wb") as f:
+            f.write(image.file.read())
+        
+            return file_name
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+
+        return ""
+    
+    

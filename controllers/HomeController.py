@@ -53,3 +53,46 @@ class HomeController:
             raise exception
 
         return deleted_home_obj
+    
+    @home_controller_router.get("/gethome/{home_id}")
+    @staticmethod
+    def get_home(home_id:int,db:Session = Depends(get_db)) -> schemas.HomeModelResponse:
+        exception = HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="There is no home registered by that home id.",
+        )
+
+        home_service = HomeService(db)
+
+        home_obj = home_service.get_home(home_id)
+
+        if home_obj == None:
+            raise exception
+        else:
+            return home_obj
+        
+
+
+    @home_controller_router.patch("/updatehome/{home_id}")
+    @staticmethod
+    def update_home(home_id:int,current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)) -> bool:
+        home_service = HomeService(db)
+
+        return home_service.update_home(home_id,home,current_user)
+    
+
+    @home_controller_router.get("/buyhome/{home_id}")
+    @staticmethod
+    def buy_home(home_id : int,current_user: Annotated[tables.User, Depends(get_current_active_user)]  ,db:Session = Depends(get_db)):
+        home_service = HomeService(db)
+        return home_service.buy_home(home_id,current_user)
+
+    @home_controller_router.post("/addhomeimage/{home_id}")
+    @staticmethod
+    def add_home_image(current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
+        pass
+
+    @home_controller_router.get("/cancelhome/{home_id}")
+    @staticmethod
+    def cancel_home(current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
+        pass

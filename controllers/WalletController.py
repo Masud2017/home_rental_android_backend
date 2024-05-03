@@ -59,3 +59,14 @@ class AuthController:
             raise exception
 
         return wallet_recharge_history_obj
+    
+
+# /addtransaction_history
+    
+    @wallet_controller_router.post("/addtransaction_history")
+    @staticmethod
+    def add_transaction_history(transaction_history:schemas.TransactionHistory ,current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)):
+        wallet_service = WalletService(db)
+
+        return wallet_service.add_transaction_history(transaction_history,current_user)
+

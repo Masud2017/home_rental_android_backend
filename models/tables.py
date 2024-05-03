@@ -19,8 +19,11 @@ class User(Base):
     homes = relationship("Home", back_populates='user')
     home_inventories = relationship("HomeInventory", back_populates='user')
     user_address = relationship("UserAddress", back_populates="user", uselist=False)
+    image = relationship("Image", back_populates="user", uselist=False)
 
     recharge_histories = relationship("RechargeHistory", back_populates="user")
+
+    transaction_histories = relationship("TransactionHistory", back_populates="user")
 
 
 
@@ -43,6 +46,7 @@ class Home(Base):
     desc = Column(String, index=True)
     price = Column(Integer, index=True)
     address = Column(String,nullable=False)
+    image = Column(String,nullable=True)
     flat_count = Column(Integer, nullable= False)
     is_soled = Column(Boolean, nullable=False)
     expiry_date = Column(DateTime,nullable=True)
@@ -94,6 +98,8 @@ class Image(Base):
 
     id = Column(Integer, primary_key=True)
     image_url = Column(String, nullable = False)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="image")
 
 class RechargeHistory(Base):
     __tablename__ = "recharge_histories"
@@ -124,3 +130,10 @@ class TransactionHistory(Base):
     __tablename__ = "transaction_histories"
 
     id = Column(Integer, primary_key= True)
+    
+    user_id_second = Column(Integer)
+    msg = Column(String)
+    user_id = Column(Integer,ForeignKey('users.id'))
+    user = relationship("User", back_populates="transaction_histories")
+
+

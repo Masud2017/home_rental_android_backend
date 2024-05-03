@@ -22,3 +22,19 @@ class HomeService:
     
     def delete_home(self,home_id,current_user) -> schemas.HomeModelResponse:
         return self.home_dao.delete_home(home_id,current_user)
+    
+    def get_home(self,home_id:int) -> schemas.HomeModelResponse:
+        return self.home_dao.get_home(home_id)
+    
+
+    def update_home(self,home_id:int,home:schemas.HomeModel, current_user : tables.User) -> bool:
+        return self.home_dao.update_home(home_id,home,current_user)
+    
+
+    def buy_home(self,home_id:int, current_user : tables.User):
+        return self.home_dao.buy_home(home_id,current_user)
+    
+    def add_home_image(self):
+        pass
+    def cancel_home(self):
+        pass

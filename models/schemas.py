@@ -66,12 +66,12 @@ class TokenData(BaseModel):
         from_attributes = True
 
 class HomeModel(BaseModel):
-    name : str
-    desc : str
-    price:int
-    address:str
-    flat_count:int
-    is_soled:bool
+    name : str = ""
+    desc : str = ""
+    price:int = 0
+    address:str = ""
+    flat_count:int = 0
+    is_soled:bool = False
 
     class Config:
         from_attributes = True
@@ -92,5 +92,35 @@ class WalletRechargeHistory(BaseModel):
     msg:str
     payment_amount:int
     payment_platform:str # Bkash, Nagad, Rocket
+    class Config:
+        from_attributes = True
+
+class RoleResponse(BaseModel):
+    role:str
+
+    class Config:
+        from_attributes = True
+
+
+class UserAddresssModel(BaseModel):
+    zip_code:int = 0
+    street:str = ""
+    state:str = ""
+    country:str = ""
+    phone:str = ""
+
+    class Config:
+        from_attributes = True
+
+class TransactionHistory(BaseModel):
+    user_id_second:int
+    msg:str
+
+    class Config:
+        from_attributes = True
+
+class TransactionHistoryResponse(TransactionHistory):
+    id:int
+
     class Config:
         from_attributes = True
