@@ -72,6 +72,7 @@ class HomeModel(BaseModel):
     address:str = ""
     flat_count:int = 0
     is_soled:bool = False
+    image:str = ""
 
     class Config:
         from_attributes = True
@@ -121,6 +122,17 @@ class TransactionHistory(BaseModel):
 
 class TransactionHistoryResponse(TransactionHistory):
     id:int
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfile(BaseModel):
+    name:str = ""
+    email:str = ""
+    wallet:int = 0
+    image:str = ""
+
 
     class Config:
         from_attributes = True

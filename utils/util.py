@@ -64,7 +64,9 @@ def save_file_to_disk(image : UploadFile,email:str) -> str:
     current_time_stamp_in_mil = int(round(time.time() * 1000))
     convertible_str = str(current_time_stamp_in_mil)+"."+email + image.filename
     file_name = base64.b64encode(convertible_str.encode("ascii"))
-    file_name = file_name.decode("ascii") + "." + image.filename.split(".")[1]
+    # file_name = file_name.decode("ascii") + "." + image.filename.split(".")[1]
+    file_name = file_name.decode("ascii") + ".jpg"
+
     
     import os
     if (not os.path.isdir("storage")):
@@ -84,3 +86,11 @@ def save_file_to_disk(image : UploadFile,email:str) -> str:
         return ""
     
     
+
+def get_image_from_disk(image_name) -> bytes:
+    path = f"storage/{image_name}"
+    img:bytes = None
+    with open(path,"rb") as f:
+        img = f.read()
+
+    return img

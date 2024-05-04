@@ -5,7 +5,8 @@ from controllers import pwd_context
 from models import tables
 from fastapi import UploadFile
 
-from utils.util import get_current_active_user,save_file_to_disk
+import base64
+from utils.util import get_current_active_user,save_file_to_disk,get_image_from_disk
 
 class UserService:
     def __init__(self,db:Session):
@@ -30,8 +31,8 @@ class UserService:
     def get_my_role(self,current_user:tables.User) -> str:
         return current_user.roles[0].role
     
-    def upload_profile_pic(self,user_id : int,image:UploadFile):
-        res = self.db.query(tables.User).filter(tables.User.id == user_id).all()
+    def upload_profile_pic(self,email:str,image:UploadFile):
+        res = self.db.query(tables.User).filter(tables.User.email == email).all()
 
         if len(res) == 0:
             return False
@@ -50,3 +51,8 @@ class UserService:
         
     def add_address(self,home_id,current_user:tables.User, address: tables.UserAddress) -> bool:
         return self.user_dao.add_address(home_id,current_user,address)
+    
+    def my_profile(self,current_user:tables.User) -> schemas.UserProfile:
+        img_bytes = get_image_from_disk(current_user.image.image_url)
+        base = base64.b64encode(img_bytes)
+        return schemas.UserProfile(name = current_user.name,email = current_user.email,image=base,wallet= current_user.user_wallet.balance)

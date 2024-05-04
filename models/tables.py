@@ -80,15 +80,13 @@ class HomeInventory(Base):
     __tablename__ = "home_inventories"
 
     id = Column(Integer, primary_key = True)
-    user_name = Column(String, nullable = True)
-    second_user_name = Column(String , nullable= True)
-    rent_price = Column(Integer, nullable=False)
-    payment_date = Column(DateTime,nullable=False)
+    payment_date = Column(DateTime,nullable=False, default = datetime.now())
+    flat_count = Column(Integer)
 
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id")) # buyer user id 
     user = relationship("User", back_populates="home_inventories")
-    home = relationship("Home")
 
+    home = relationship("Home") # his home relation will contain the home owner id
     home_id = Column(Integer, ForeignKey("homes.id"))
 
 

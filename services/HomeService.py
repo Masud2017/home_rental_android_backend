@@ -36,5 +36,8 @@ class HomeService:
     
     def add_home_image(self):
         pass
-    def cancel_home(self):
-        pass
+    def cancel_home(self,inventory_id:int,current_user:tables.User) -> bool:
+        return self.home_dao.cancel_home(inventory_id,current_user)
+    
+    def add_home_image(self,home_id, image,current_user):
+        return self.home_dao.add_home_image(home_id,image,current_user)

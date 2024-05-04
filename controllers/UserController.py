@@ -61,12 +61,12 @@ class UserController:
     @staticmethod
     def upload_profile_pic(
         image : UploadFile = File(),
-        user_id : int = File(),
+        email : str = File(),
         db:Session = Depends(get_db)
     ):
         user_service = UserService(db)
 
-        return user_service.upload_profile_pic(user_id, image)
+        return user_service.upload_profile_pic(email, image)
 
 # /addaddress (do both update and add)
     @user_controller_router.get("/addaddress")
@@ -75,3 +75,10 @@ class UserController:
         user_service = UserService(db)
 
         return user_service.add_address(current_user,address)
+    
+    @user_controller_router.get("/myprofile")
+    @staticmethod
+    def my_profile(current_user: Annotated[tables.User, Depends(get_current_active_user)],db:Session = Depends(get_db)) -> schemas.UserProfile:
+        user_service = UserService(db)
+
+        return user_service.my_profile(current_user)

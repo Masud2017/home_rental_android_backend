@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends,HTTPException,status
+from fastapi import APIRouter,Depends,HTTPException,status,File, UploadFile
 from sqlalchemy.orm import Session
 from models import schemas
 from models import tables
@@ -89,10 +89,19 @@ class HomeController:
 
     @home_controller_router.post("/addhomeimage/{home_id}")
     @staticmethod
-    def add_home_image(current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
-        pass
+    def add_home_image(home_id:int, current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db), image:UploadFile=File()):
+        home_service = HomeService(db)
 
-    @home_controller_router.get("/cancelhome/{home_id}")
+        return home_service.add_home_image(home_id, image, current_user)
+
+    @home_controller_router.get("/cancelhome/{inventory_id}")
     @staticmethod
-    def cancel_home(current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
+    def cancel_home(inventory_id:int,current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
+        home_service = HomeService(db)
+
+        return home_service.cancel_home(inventory_id,current_user)
+    
+    @home_controller_router.get("/getinventorylist")
+    @staticmethod
+    def get_inventory_list(current_user: Annotated[tables.User, Depends(get_current_active_user)] ,db:Session = Depends(get_db)):
         pass
