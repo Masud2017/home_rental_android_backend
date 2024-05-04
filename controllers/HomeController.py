@@ -96,7 +96,7 @@ class HomeController:
 
     @home_controller_router.get("/cancelhome/{inventory_id}")
     @staticmethod
-    def cancel_home(inventory_id:int,current_user: Annotated[tables.User, Depends(get_current_active_user)] , home : schemas.HomeModel ,db:Session = Depends(get_db)):
+    def cancel_home(inventory_id:int,current_user: Annotated[tables.User, Depends(get_current_active_user)] ,db:Session = Depends(get_db)):
         home_service = HomeService(db)
 
         return home_service.cancel_home(inventory_id,current_user)

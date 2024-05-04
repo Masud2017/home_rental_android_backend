@@ -40,6 +40,12 @@ class HomeDao:
     def get_user_created_homes(self,current_user:tables.User)-> list[schemas.HomeModelResponse]:
         home_list = self.db.query(tables.Home).filter(tables.Home.user_id == current_user.id).all()
 
+
+        for home_item in home_list:
+            img_bytes = util.get_image_from_disk(home_item.image)
+            base = base64.b64encode(img_bytes)
+            home_item.image = base
+
         return home_list
     
     def delete_home(self,home_id:int,current_user:tables.User) -> schemas.HomeModelResponse:
@@ -130,8 +136,12 @@ class HomeDao:
 
             wallet_service = WalletService(self.db)
             transaction_history = schemas.TransactionHistory(user_id_second=home.user.id,msg = f"{home.name} flat count : = 1, price = {home.price}")
+            transaction_history_owner = schemas.TransactionHistory(user_id_second=current_user.id,msg = f"Sold {home.name} flat count : = 1, price = {home.price}")
             
+
+
             wallet_service.add_transaction_history(transaction_history,current_user)
+            wallet_service.add_transaction_history(transaction_history=transaction_history_owner,current_user=home.user)
 
             return True
         
@@ -153,9 +163,11 @@ class HomeDao:
 
             
             wallet_service = WalletService(self.db)
-            transaction_history = schemas.TransactionHistory(user_id_second=inventory.home.user.id,msg = f"Refunded {inventory.home.name} flat count : = 1, price = {inventory.home.price}")
+            transaction_history = schemas.TransactionHistory(user_id_second=inventory.home.user.id,msg = f"Got Refunded {inventory.home.name} flat count : = 1, price = {inventory.home.price}")
+            transaction_history_owner = schemas.TransactionHistory(user_id_second=current_user.id,msg = f"Refunded {inventory.home.name} flat count : = 1, price = {inventory.home.price}")
             
             wallet_service.add_transaction_history(transaction_history,current_user)
+            wallet_service.add_transaction_history(transaction_history=transaction_history_owner,current_user=inventory.home.user)
             
             return True
     
