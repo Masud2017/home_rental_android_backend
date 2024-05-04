@@ -74,3 +74,11 @@ class AuthController:
     def get_transaction_histories(current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> list[schemas.TransactionHistoryResponse]:
         wallet_service = WalletService(db)
         return wallet_service.get_transaction_histories(current_user = current_user)
+    
+    @wallet_controller_router.get("/getrechargehistories")
+    @staticmethod
+    def get_recharge_histories(current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> list[schemas.WalletRechargeHistory]:
+        wallet_service = WalletService(db)
+
+        return wallet_service.get_recharge_histories(current_user)
+    

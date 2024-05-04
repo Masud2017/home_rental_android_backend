@@ -70,3 +70,6 @@ class WalletDao:
     def get_transaction_histories(self,current_user:tables.User)-> list[schemas.TransactionHistoryResponse]:
         return current_user.transaction_histories
     
+
+    def get_recharge_histories(self,current_user:tables.User) -> list[schemas.WalletRechargeHistory]:
+        return current_user.recharge_histories

@@ -37,3 +37,6 @@ class WalletService:
     
     def get_transaction_histories(self,current_user) -> list[schemas.TransactionHistory]:
         return self.wallet_dao.get_transaction_histories(current_user)
+    
+    def get_recharge_histories(self,current_user) -> list[schemas.WalletRechargeHistory]:
+        return self.wallet_dao.get_recharge_histories(current_user)
