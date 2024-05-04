@@ -61,7 +61,6 @@ class AuthController:
         return wallet_recharge_history_obj
     
 
-# /addtransaction_history
     
     @wallet_controller_router.post("/addtransaction_history")
     @staticmethod
@@ -70,3 +69,8 @@ class AuthController:
 
         return wallet_service.add_transaction_history(transaction_history,current_user)
 
+    @wallet_controller_router.get("/gettransactionhistories")
+    @staticmethod
+    def get_transaction_histories(current_user: Annotated[tables.User, Depends(get_current_active_user)] , db:Session = Depends(get_db)) -> list[schemas.TransactionHistoryResponse]:
+        wallet_service = WalletService(db)
+        return wallet_service.get_transaction_histories(current_user = current_user)

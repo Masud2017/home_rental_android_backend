@@ -26,7 +26,7 @@ class WalletDao:
             return None
         else:
             try:
-                res[0].balance = wallet.balance
+                res[0].balance += wallet.balance
 
                 self.db.commit()
                 return res[0]
@@ -67,4 +67,6 @@ class WalletDao:
             return False
         
 
+    def get_transaction_histories(self,current_user:tables.User)-> list[schemas.TransactionHistoryResponse]:
+        return current_user.transaction_histories
     

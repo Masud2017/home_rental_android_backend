@@ -1,6 +1,7 @@
 # Schemas are basically sets of pydantic models that is being used to validate and parse data from http request object
 
 from typing import Union,Tuple,List
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -13,7 +14,7 @@ class UserHistory(BaseModel):
         from_attributes = True
 
 class UserWallet(BaseModel):
-    id:int
+    id:int = 0
     balance:int
     class Config:
         # orm_mode = True
@@ -136,3 +137,14 @@ class UserProfile(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class HomeInventory(BaseModel):
+    id : int = 0
+    # payment_date:datetime = None
+    flat_count: int = 0
+    image:str = ""
+    name:str = ""
+
+    class Config:
+        from_attributes = 0

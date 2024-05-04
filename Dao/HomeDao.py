@@ -4,6 +4,7 @@ from models import schemas
 from models import tables
 from sqlalchemy.orm import Session
 import traceback
+from services.WalletService import WalletService
 import base64
 
 from utils import util
@@ -64,7 +65,11 @@ class HomeDao:
         if len(res) == 0:
             return None
         else:
-            return res[0]
+            home = res[0]
+            img_bytes = util.get_image_from_disk(home.image)
+            base = base64.b64encode(img_bytes)
+            home.image = base
+            return home
         
 
     def update_home(self,home_id:int,home : schemas.HomeModel, current_user : tables.User) -> bool :
@@ -94,7 +99,7 @@ class HomeDao:
 
             return True
         
-    def buy_home(self,home_id:int,flat_count :int, current_user:tables.User)->bool:
+    def buy_home(self,home_id:int, current_user:tables.User,flat_count :int  = 1)->bool:
         res = self.db.query(tables.Home).filter(tables.Home.id == home_id).all()
 
         if (len(res) == 0):
@@ -107,6 +112,9 @@ class HomeDao:
             
             home_inventory = tables.HomeInventory()
             home_inventory.home = home
+            home_inventory.image = home.image
+            home_inventory.name = home.name
+            home_inventory.flat_count = home.flat_count
             home_inventory.user = current_user
             home_inventory.flat_count = flat_count
             home.flat_count -= flat_count
@@ -119,6 +127,12 @@ class HomeDao:
             self.db.add(home_inventory)
             self.db.commit()
             self.db.refresh(home_inventory)
+
+            wallet_service = WalletService(self.db)
+            transaction_history = schemas.TransactionHistory(user_id_second=home.user.id,msg = f"{home.name} flat count : = 1, price = {home.price}")
+            
+            wallet_service.add_transaction_history(transaction_history,current_user)
+
             return True
         
     def cancel_home(self,inventory_id:int,current_user:tables.User) -> bool:
@@ -136,6 +150,12 @@ class HomeDao:
 
             self.db.delete(inventory)
             self.db.commit()
+
+            
+            wallet_service = WalletService(self.db)
+            transaction_history = schemas.TransactionHistory(user_id_second=inventory.home.user.id,msg = f"Refunded {inventory.home.name} flat count : = 1, price = {inventory.home.price}")
+            
+            wallet_service.add_transaction_history(transaction_history,current_user)
             
             return True
     
@@ -158,4 +178,12 @@ class HomeDao:
                 return False
 
 
+    def get_inventory_list(self,current_user:tables.User) -> list[schemas.HomeInventory]:
         
+        inventories:list[tables.HomeInventory]  = current_user.home_inventories
+        for inven_item in inventories:
+            img_bytes = util.get_image_from_disk(inven_item.image)
+            base = base64.b64encode(img_bytes)
+            inven_item.image = base
+
+        return inventories

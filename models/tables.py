@@ -82,6 +82,8 @@ class HomeInventory(Base):
     id = Column(Integer, primary_key = True)
     payment_date = Column(DateTime,nullable=False, default = datetime.now())
     flat_count = Column(Integer)
+    image = Column(String)
+    name = Column(String)
 
     user_id = Column(Integer, ForeignKey("users.id")) # buyer user id 
     user = relationship("User", back_populates="home_inventories")

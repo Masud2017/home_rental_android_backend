@@ -41,3 +41,6 @@ class HomeService:
     
     def add_home_image(self,home_id, image,current_user):
         return self.home_dao.add_home_image(home_id,image,current_user)
+    
+    def get_inventory_list(self,current_user) -> list[schemas.HomeInventory]:
+        return self.home_dao.get_inventory_list(current_user)

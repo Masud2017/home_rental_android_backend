@@ -34,3 +34,6 @@ class WalletService:
 
     def add_transaction_history(self,transaction_history : schemas.TransactionHistory, current_user : tables.User)->bool:
         return self.wallet_dao.add_transaction_history(transaction_history,current_user)
+    
+    def get_transaction_histories(self,current_user) -> list[schemas.TransactionHistory]:
+        return self.wallet_dao.get_transaction_histories(current_user)

@@ -104,4 +104,12 @@ class HomeController:
     @home_controller_router.get("/getinventorylist")
     @staticmethod
     def get_inventory_list(current_user: Annotated[tables.User, Depends(get_current_active_user)] ,db:Session = Depends(get_db)):
-        pass
+        home_service = HomeService(db)
+        return home_service.get_inventory_list(current_user)
+
+    @home_controller_router.get("/getinventory/{inventory_id}")
+    @staticmethod
+    def get_inventory_list(inventory_id:int,current_user: Annotated[tables.User, Depends(get_current_active_user)] ,db:Session = Depends(get_db)):
+        home_service = HomeService(db)
+
+        return home_service.get_inventory_list(current_user)
