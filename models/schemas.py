@@ -23,6 +23,7 @@ class UserWallet(BaseModel):
 class UserBase(BaseModel):
     name:str = ""
     email:str
+    phone_number:str = ""
     class Config:
         # orm_mode = True
         from_attributes = True
@@ -133,6 +134,7 @@ class UserProfile(BaseModel):
     email:str = ""
     wallet:int = 0
     image:str = ""
+    phone_number:str = ""
 
 
     class Config:

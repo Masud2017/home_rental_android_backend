@@ -55,4 +55,4 @@ class UserService:
     def my_profile(self,current_user:tables.User) -> schemas.UserProfile:
         img_bytes = get_image_from_disk(current_user.image.image_url)
         base = base64.b64encode(img_bytes)
-        return schemas.UserProfile(name = current_user.name,email = current_user.email,image=base,wallet= current_user.user_wallet.balance)
+        return schemas.UserProfile(name = current_user.name,email = current_user.email,image=base,wallet= current_user.user_wallet.balance,phone_number = current_user.phone_number)

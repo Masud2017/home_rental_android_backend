@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
     is_active = Column(Boolean, default=True)
+    phone_number = Column(String)
 
     user_histories = relationship("UserHistory", back_populates="owner")
     user_wallet = relationship("UserWallet", back_populates="user",uselist=False) # one to one relation with user and user wallet

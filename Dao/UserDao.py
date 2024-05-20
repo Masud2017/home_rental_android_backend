@@ -18,6 +18,7 @@ class UserDao:
         user_obj.email = user.email
         user_obj.password = user.password
         user_obj.name = user.name
+        user_obj.phone_number = user.phone_number
         user_obj.user_wallet = None
         user_obj.user_histories = list()
         self.db.add(user_obj)
@@ -60,6 +61,7 @@ class UserDao:
         user_obj.email = user.email
         user_obj.password = user.password
         user_obj.name = user.name
+        user_obj.phone_number = user.phone_number
         user_obj.user_wallet = None
         user_obj.user_histories = list()
         self.db.add(user_obj)
