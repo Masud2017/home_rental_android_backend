@@ -46,7 +46,7 @@ pydantic==2.7.0
 pydantic_core==2.18.1
 
 PyJWT==2.3.0
-pyparsing==2.4.7
+
 
 python-dotenv==1.0.1
 python-jose==3.3.0
